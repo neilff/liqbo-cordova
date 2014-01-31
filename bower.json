@@ -1,0 +1,26 @@
+{
+  "name": "lcbo-ionic",
+  "version": "0.1.0",
+  "authors": [
+    "Neil Fenton <neilff@gmail.com>"
+  ],
+  "description": "LCBO Application built with Ionic AngularJS Framework",
+  "license": "MIT",
+  "homepage": "www.codebeard.io",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/js/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "~1.5.2",
+    "angular-google-maps": "~1.0.9",
+    "angular-animate": "~1.2.10",
+    "angular-resource": "~1.2.10",
+    "angular-sanitize": "~1.2.10"
+  }
+}

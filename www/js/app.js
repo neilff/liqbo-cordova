@@ -13,7 +13,7 @@ angular.module('lcboApp', ['ionic', 'lcboApp.services', 'lcboApp.controllers'])
             url: '/stores',
             views: {
                 'stores-tab': {
-                    templateUrl: 'templates/stores/index.html',
+                    templateUrl: 'templates/stores/index.tpl.html',
                     controller: 'StoresIndexCtrl'
                 }
             }
@@ -23,7 +23,7 @@ angular.module('lcboApp', ['ionic', 'lcboApp.services', 'lcboApp.controllers'])
             url: '/stores/:storeId',
             views: {
                 'stores-tab': {
-                    templateUrl: 'templates/stores/detail.html',
+                    templateUrl: 'templates/stores/detail.tpl.html',
                     controller: 'StoresDetailCtrl'
                 }
             }
@@ -33,7 +33,7 @@ angular.module('lcboApp', ['ionic', 'lcboApp.services', 'lcboApp.controllers'])
             url: '/drinks',
             views: {
                 'drinks-tab': {
-                    templateUrl: 'templates/about.html',
+                    templateUrl: 'templates/drinks/index.tpl.html',
                     controller: 'DrinksIndexCtrl'
                 }
             }
