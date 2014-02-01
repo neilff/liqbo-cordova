@@ -1,0 +1,36 @@
+.scroll {
+    height: 100%;
+
+    .angular-google-map {
+        height: 100%;
+        width: 100%;
+
+        .angular-google-map-container {
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
+
+#trigger-filters {
+    margin-right: 12px;
+}
+
+#form-header-search {
+    width: 100%;
+    display: flex;
+}
+
+.bar-search {
+    padding: 0;
+    height: 54px;
+}
+
+#search-bar {
+    background: none;
+
+    .item {
+        background: none;
+        border: none;
+    }
+}

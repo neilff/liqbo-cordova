@@ -4,7 +4,9 @@
             <button class="button button-icon" ng-click="toggleSlide()"><i class="icon ion-navicon"></i></button>
             <h1 class="title">Stores</h1>
         </header>
-        <google-map center="map.center" zoom="map.zoom" draggable="true"></google-map>
+        <content has-header="true" scroll=false>
+            <google-map center="map.center" zoom="map.zoom" options="map.options" draggable="true"></google-map>
+        </content>
     </pane>
     <side-menu side="left">
         <header class="bar bar-header bar-dark" fade-header>

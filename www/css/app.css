@@ -1,8 +1,25 @@
-/* Your app's CSS, go crazy, make it your own */
+.scroll {
+  height: 100%; }
+  .scroll .angular-google-map {
+    height: 100%;
+    width: 100%; }
+    .scroll .angular-google-map .angular-google-map-container {
+      height: 100%;
+      width: 100%; }
 
-.ionic-logo {
-  display: block;
-  margin: 15px auto;
-  width: 96px;
-  height: 96px;
-}
+#trigger-filters {
+  margin-right: 12px; }
+
+#form-header-search {
+  width: 100%;
+  display: flex; }
+
+.bar-search {
+  padding: 0;
+  height: 54px; }
+
+#search-bar {
+  background: none; }
+  #search-bar .item {
+    background: none;
+    border: none; }
