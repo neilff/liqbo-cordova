@@ -18,11 +18,11 @@ angular.module('lcboApp', [
         })
 
         .state('tab.stores-index', {
-            url: '/stores',
+            url: '/stores?lat&lon&storeid',
             views: {
                 'stores-tab': {
                     templateUrl: 'templates/stores/index.tpl.html',
-                    controller: 'StoresCtrl'
+                    controller: 'StoresIndexCtrl'
                 }
             }
         })
@@ -32,7 +32,7 @@ angular.module('lcboApp', [
             views: {
                 'stores-tab': {
                     templateUrl: 'templates/stores/detail.tpl.html',
-                    controller: 'StoresCtrl'
+                    controller: 'StoresDetailCtrl'
                 }
             }
         })
@@ -57,7 +57,7 @@ angular.module('lcboApp', [
             }
         })
 
-    $urlRouterProvider.otherwise('/tab/stores');
+    $urlRouterProvider.otherwise('/tab/drinks');
 }])
 
 /**
@@ -73,30 +73,63 @@ angular.module('lcboApp', [
  *  the entire application on a global level
  */
 .run(['localStorageService', '$rootScope', function(localStorageService, $rootScope) {
+
+    /**
+     *  Establish rootScope defaults
+     */
+    _.extend($rootScope, {
+        map: {
+            center: {
+                latitude: 43.7000,
+                longitude: -79.4000,
+            },
+            zoom: 16,
+            options: {
+                overviewMapControl: false,
+                panControl: false,
+                rotateControl: false,
+                scaleControl: false,
+                zoomControl: false,
+                streetViewControl: false,
+                mapTypeControl: false
+            },
+            icons: {
+                user: 'img/location.svg',
+                open: 'img/beer_open.svg',
+                closed: 'img/beer_closed.svg'
+            },
+            fill: {}
+        },
+        user: {},
+        localStores: [],
+        loadingConfig: {
+            content: 'Loading',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 500
+        }
+    });
+
+    /**
+     *  Establish localstorage defaults
+     */
     if (!localStorageService.get('favoriteDrinks')) { localStorageService.add('favoriteDrinks', []) };
     if (!localStorageService.get('favoriteStores')) { localStorageService.add('favoriteStores', []) };
     if (!localStorageService.get('lastSearch')) { localStorageService.add('lastSearch', '') };
     if (!localStorageService.get('lastResult')) { localStorageService.add('lastResult', []) };
+    if (!localStorageService.get('lastStores')) {
+        localStorageService.add('lastStores', []);
+        $rootScope.localStores = localStorageService.get('lastStores');
+    }
+    if (!localStorageService.get('lastMapLocation')) {
+        var defaultLocation = {
+            latitude: 43.7000,
+            longitude: -79.4000
+        };
 
-    /**
-     *  Configure the Ionic loading modal
-     */
-    $rootScope.loadingConfig = {
-        // The text to display in the loading indicator
-        content: '<i class="icon ion-loading-c"></i> Loading',
-
-        // The animation to use
-        animation: 'fade-in',
-
-        // Will a dark overlay or backdrop cover the entire view
-        showBackdrop: true,
-
-        // The maximum width of the loading indicator
-        // Text will be wrapped if longer than maxWidth
-        maxWidth: 200,
-
-        // The delay in showing the indicator
-        showDelay: 500
+        localStorageService.add('lastMapLocation', defaultLocation);
+        $rootScope.map.center = defaultLocation;
     }
 }]);
 

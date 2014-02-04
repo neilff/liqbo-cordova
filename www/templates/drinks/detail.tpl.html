@@ -40,15 +40,18 @@
                 Find Locally
             </a>
 
-            <a ng-repeat="store in stores" class="item item-icon-left" href="">
-                <i class="icon ion-person-stalker"></i>
-                {{store.address_line_1}}
+            <!-- find local results -->
+            <a ng-repeat="store in stores" class="item item-icon-left" href="" ng-click="findLocation(store.id);">
+                <i class="icon ion-ios7-cart"></i>
+                {{store.name}}
                 <span class="badge badge-assertive">{{store.quantity}}</span>
             </a>
 
-            <li class="item item-assertive item-icon-left" ng-show="noLocation">
+            <!-- location data error -->
+            <li class="item item-assertive item-icon-left item-icon-right" ng-show="noLocation" ng-click="clearError();">
                 <i class="icon ion-alert-circled"></i>
-                Error: No Location Data
+                No Items Found
+                <i class="icon ion-ios7-close-outline"></i>
             </li>
         </list>
     </content>

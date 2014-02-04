@@ -1,19 +1,6 @@
 angular.module('lcboApp.controllers')
-    .controller('DrinksDetailCtrl', ['$scope', 'DrinksService', 'localStorageService', '$stateParams', '$rootScope', '$ionicLoading', 'LocationService',
-        function($scope, DrinksService, localStorageService, $stateParams, $rootScope, $ionicLoading, LocationService) {
-
-        /**
-         *  Check if the drink is stored in favorites
-         *
-         *  @method isFavorite
-         *
-         *  @param  {String} id Id of the product you wish to lookup
-         *
-         *  @return {Boolean}
-         */
-        var isFavorite = function(id) {
-            return (_.findWhere(localStorageService.get('favoriteDrinks'), {id: parseInt(id)})) ? true : false;
-        }
+    .controller('DrinksDetailCtrl', ['$scope', 'DrinksService', 'localStorageService', 'FavoritesService', '$stateParams', '$rootScope', '$ionicLoading', 'LocationService', '$location',
+        function($scope, DrinksService, localStorageService, FavoritesService, $stateParams, $rootScope, $ionicLoading, LocationService, $location) {
 
         /**
          *  Retrieves the product data from the API
@@ -28,6 +15,21 @@ angular.module('lcboApp.controllers')
                 $scope.product = data.result;
                 $ionicLoading.show().hide();
             });
+        }
+
+        $scope.clearError = function() {
+            $scope.noLocation = false;
+        }
+
+        /**
+         *  Forwards user to the map page with the specified store id
+         *
+         *  @method findLocation
+         *
+         *  @param  {Integer} id The id of the store
+         */
+        $scope.findLocation = function(id) {
+            $location.search('storeid', id).path('/tab/stores');
         }
 
         /**
@@ -66,21 +68,7 @@ angular.module('lcboApp.controllers')
          *  @param  {Object} item The product you wish to add to the users favorites
          */
         $scope.toggleFavorite = function(product) {
-            var item = { id: product.id, name: product.name },
-                favorites = localStorageService.get('favoriteDrinks');
-
-            if (_.findWhere(favorites, item)) {
-                /* Remove Logic */
-                favorites = _.reject(favorites, function(favorite) {
-                    return favorite.id === item.id;
-                });
-            } else {
-                /* Add Logic */
-                favorites.push(item);
-            }
-
-            $scope.isFavorite = !$scope.isFavorite;
-            return localStorageService.add('favoriteDrinks', favorites);
+            return $scope.isFavorite = FavoritesService.toggleFavorite(product, 'favoriteDrinks');
         }
 
         /**
@@ -89,7 +77,7 @@ angular.module('lcboApp.controllers')
         $scope.init = function() {
             _.extend($scope, {
                 product: {},
-                isFavorite: isFavorite($stateParams.productId),
+                isFavorite: FavoritesService.isFavorite($stateParams.productId, 'favoriteDrinks'),
                 noLocation: false
             });
 

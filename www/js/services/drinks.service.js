@@ -15,13 +15,12 @@ angular.module('lcboApp.services')
          *
          *  @return {Object} $http promise object
          */
-        var getProducts = function(query, filters, page) {
+        var getProducts = function(query, filters) {
             return $http({
                 method: 'JSONP',
                 url: 'http://lcboapi.com/products.js',
                 params: {
                     callback: 'JSON_CALLBACK',
-                    page: page,
                     q: escapeFilter(query),
                     where: filters.join(',')
                 }
@@ -46,7 +45,6 @@ angular.module('lcboApp.services')
                 }
             });
         }
-
 
         /**
          *  Find the specified product locally

@@ -1,6 +1,75 @@
-<view title="pet.title">
-  <content has-header="true" padding="true">
-    <p>{{ pet.description }}</p>
-    <p><a class="button button-small icon ion-arrow-left-b" href="#/tab/pets"> All Pets</a></p>
-  </content>
+<view title="'Store Detail'">
+    <div class="bar bar-header bar-dark">
+        <a class="button button-clear icon ion-arrow-left-b" href="#/tab/stores"></a>
+        <h1 class="title">{{store.name}}</h1>
+    </div>
+    <content has-header="true" has-footer="true" scroll="true" padding="false">
+        <list>
+
+            <!-- product info -->
+            <a href="#/tab/stores?storeid={{store.id}}" class="item item-thumbnail-left">
+                <!-- google map thumbnail -->
+                <img src="http://maps.googleapis.com/maps/api/staticmap?center={{store.latitude}},{{store.longitude}}&zoom=15&size=80x80&scale=2&maptype=roadmap
+&markers=color:red%7C{{store.latitude}},{{store.longitude}}&sensor=false">
+                <h2 class="positive">{{store.name}}</h2>
+                <h3>{{store.address_line_1}} {{store.address_line_2}}</h3>
+                <h3>{{store.city}}</h3>
+                <h3>{{store.postal_code}}</h3>
+            </a>
+
+            <!-- telephone button -->
+            <a href="tel:{{store.telephone}}" class="item item-icon-left item-icon-right item-dark">
+                <i class="icon ion-chatbubble-working"></i>
+                {{store.telephone}}
+                <i class="icon ion-ios7-telephone-outline"></i>
+            </a>
+
+            <!-- add as favorite button -->
+            <a class="item item-icon-left item-icon-right" href="" ng-click="toggleFavorite(store);" ng-class="{'item-positive': isFavorite}">
+                <i class="icon ion-thumbsup" ng-class="{dark: !isFavorite}"></i>
+                <span ng-class="{dark: !isFavorite}">Favorite</span>
+                <i class="icon" ng-class="{'ion-ios7-plus-outline': !isFavorite, 'ion-ios7-close': isFavorite}"></i>
+            </a>
+
+            <!-- search inventory -->
+            <li class="item item-icon-left item-icon-right" ng-click="searchOpenToggle();">
+                <i class="icon ion-ios7-search-strong"></i>
+                Search Inventory
+                <i class="icon" ng-class="{'ion-ios7-plus-outline': !searchOpen, 'ion-ios7-close': searchOpen}"></i>
+            </li>
+
+            <!-- search inventory form -->
+            <form class="item item-input-inset" ng-submit="productSearch();" ng-show="searchOpen">
+                <label class="item-input-wrapper">
+                    <input type="text" placeholder="Search" ng-model="query.text">
+                    <i class="icon ion-ios7-close-outline placeholder-icon" ng-click="clearSearch();"></i>
+                </label>
+                <input type="submit" class="button button-small button-positive button-clear">
+            </form>
+
+            <!-- search inventory error -->
+            <li class="item item-assertive item-icon-left item-icon-right" ng-show="noProducts && searchOpen" ng-click="clearError();">
+                <i class="icon ion-alert-circled"></i>
+                No Items Found
+                <i class="icon ion-ios7-close-outline"></i>
+            </li>
+
+            <!-- search inventory results -->
+            <li class="item item-icon-left" ng-repeat="product in productResults" ng-show="searchOpen">
+                <i class="icon ion-beer"></i>{{product.name}}<span class="badge badge-assertive">{{product.quantity}}</span>
+                <p>{{product.package}}</p>
+            </li>
+
+            <li class="item item-divider"></i>Hours</li>
+            <lcbo-hours-operation day="Monday" open="{{store.monday_open}}" close="{{store.monday_close}}"></lcbo-hours-operation>
+            <lcbo-hours-operation day="Tuesday" open="{{store.tuesday_open}}" close="{{store.tuesday_close}}"></lcbo-hours-operation>
+            <lcbo-hours-operation day="Wednesday" open="{{store.wednesday_open}}" close="{{store.wednesday_close}}"></lcbo-hours-operation>
+            <lcbo-hours-operation day="Thursday" open="{{store.thursday_open}}" close="{{store.thursday_close}}"></lcbo-hours-operation>
+            <lcbo-hours-operation day="Friday" open="{{store.friday_open}}" close="{{store.friday_close}}"></lcbo-hours-operation>
+            <lcbo-hours-operation day="Saturday" open="{{store.saturday_open}}" close="{{store.saturday_close}}"></lcbo-hours-operation>
+            <lcbo-hours-operation day="Sunday" open="{{store.sunday_open}}" close="{{store.sunday_close}}"></lcbo-hours-operation>
+
+            <lcbo-store-features></lcbo-store-features>
+        </list>
+    </content>
 </view>

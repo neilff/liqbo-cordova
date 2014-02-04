@@ -1,19 +1,20 @@
 <view title="'Drinks'">
     <side-menus>
         <pane side-menu-content>
-            <div class="bar bar-header bar-positive item-input-inset">
+            <div class="bar bar-header bar-positive item-input-inset" ng-submit="search();">
                 <button id="trigger-filters" class="button button-clear icon ion-navicon" ng-click="toggleSlide();"></button>
                 <label class="item-input-wrapper">
                     <i class="icon ion-ios7-search-strong placeholder-icon"></i>
-                    <input type="search" placeholder="Search" ng-model="query" />
+                    <input type="search" placeholder="Search" ng-model="query.input" />
+                    <i class="icon ion-ios7-close-outline placeholder-icon" ng-click="clearSearch();"></i>
                 </label>
-                <button class="button button-clear" ng-click="search(query, 1);">
+                <button class="button button-clear" ng-click="search();">
                     Search
                 </button>
             </div>
-            <content has-header="true" has-footer="true" scroll="true" padding="false">
+            <content has-header="true" has-footer="true" scroll="true" padding="false"  id="top">
                 <list id="list-drinks" can-swipe="true">
-                    <li class="item" ng-show="results.length === 0">No results to display</li>
+                    <li class="item" ng-show="filtered.length === 0">No results to display</li>
                     <a ng-repeat="item in filtered = (results | filter: filters)" class="item item-thumbnail-left item-icon-right" href="#/tab/drinks/{{item.id}}" ng-click="viewProduct(item);">
                         <img src="{{item.image_thumb_url}}" ng-if="item.image_thumb_url">
                         <img src="img/no-img.png" ng-if="!item.image_thumb_url">
@@ -35,7 +36,7 @@
             <content has-header="true" has-footer="true">
                 <ul class="list">
                     <!-- filters -->
-                    <li class="item item-divider">Filters</li>
+                    <li class="item item-divider">Filter Search Results</li>
                     <li class="item item-checkbox">
                         <label for="has_limited_time_offer" class="checkbox">
                             <input name="has_limited_time_offer" type="checkbox" ng-model="filters.has_limited_time_offer" ng-false-value="">
@@ -68,7 +69,7 @@
                     </li>
 
                     <!-- favorites -->
-                    <li class="item item-divider" ng-if="favorites">Favourites</li>
+                    <li class="item item-divider" ng-if="favorites">Favourite Products</li>
                     <a class="item" ng-repeat="favorite in favorites" href="#/tab/drinks/{{favorite.id}}">{{favorite.name}}</a>
                 </ul>
             </content>
