@@ -12,7 +12,7 @@
                     Search
                 </button>
             </div>
-            <content has-header="true" has-footer="true" scroll="true" padding="false"  id="top">
+            <content has-header="true" has-tabs="true" scroll="true" padding="false"  id="top">
                 <list id="list-drinks" can-swipe="true">
                     <li class="item" ng-show="filtered.length === 0">No results to display</li>
                     <a ng-repeat="item in filtered = (results | filter: filters)" class="item item-thumbnail-left item-icon-right" href="#/tab/drinks/{{item.id}}" ng-click="viewProduct(item);">

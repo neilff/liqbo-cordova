@@ -57,7 +57,17 @@ angular.module('lcboApp', [
             }
         })
 
-    $urlRouterProvider.otherwise('/tab/drinks');
+        .state('tab.about', {
+            url: '/about',
+            views: {
+                'about-tab': {
+                    templateUrl: 'templates/about.html',
+                    controller: 'AboutCtrl'
+                }
+            }
+        })
+
+    $urlRouterProvider.otherwise('/tab/stores');
 }])
 
 /**
@@ -73,6 +83,8 @@ angular.module('lcboApp', [
  *  the entire application on a global level
  */
 .run(['localStorageService', '$rootScope', function(localStorageService, $rootScope) {
+
+    if (!localStorageService.get('showToolTips')) { localStorageService.add('showToolTips', true) };
 
     /**
      *  Establish rootScope defaults
@@ -108,6 +120,11 @@ angular.module('lcboApp', [
             showBackdrop: true,
             maxWidth: 200,
             showDelay: 500
+        },
+        showToolTips: localStorageService.get('showToolTips'),
+        toolTips: {
+            search: true,
+            product: true
         }
     });
 

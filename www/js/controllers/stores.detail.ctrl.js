@@ -30,6 +30,24 @@ angular.module('lcboApp.controllers')
         }
 
         /**
+         *  Toggles feature dialog open / closed
+         *
+         *  @method featuresOpenToggle
+         */
+        $scope.featuresOpenToggle = function() {
+            $scope.featuresOpen = !$scope.featuresOpen;
+        }
+
+        /**
+         *  Toggles hours dialog open / closed
+         *
+         *  @method hoursOpenToggle
+         */
+        $scope.hoursOpenToggle = function() {
+            $scope.hoursOpen = !$scope.hoursOpen;
+        }
+
+        /**
          *  Looks up products for a specific store and then takes all those results
          *  and looks up the inventory quantity at the store. This function is limited
          *  to finding only 5 products as there are many requests being created.
@@ -89,6 +107,8 @@ angular.module('lcboApp.controllers')
                     text: ''
                 },
                 searchOpen: false,
+                featuresOpen: false,
+                hoursOpen: false,
                 productResults: []
             });
 

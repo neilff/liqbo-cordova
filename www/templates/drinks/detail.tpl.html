@@ -3,7 +3,7 @@
         <a class="button button-clear icon ion-arrow-left-b" href="#/tab/drinks"></a>
         <h1 class="title">{{product.name}}</h1>
     </div>
-    <content has-header="true" has-footer="true" scroll="true" padding="false">
+    <content has-header="true" has-tabs="true" scroll="true" padding="false">
         <list>
 
             <!-- product info -->
@@ -18,7 +18,7 @@
             <!-- add as favorite button -->
             <a class="item item-icon-left item-icon-right" href="" ng-click="toggleFavorite(product);" ng-class="{'item-positive': isFavorite}">
                 <i class="icon ion-thumbsup" ng-class="{dark: !isFavorite}"></i>
-                <span ng-class="{dark: !isFavorite}">Favorite</span>
+                <span ng-class="{dark: !isFavorite}">Favourite</span>
                 <i class="icon" ng-class="{'ion-ios7-plus-outline': !isFavorite, 'ion-ios7-close': isFavorite}"></i>
             </a>
 

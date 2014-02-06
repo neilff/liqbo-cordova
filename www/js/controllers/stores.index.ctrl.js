@@ -1,6 +1,6 @@
 angular.module('lcboApp.controllers')
-    .controller('StoresIndexCtrl', ['LocationService', 'StoresService', '$scope', '$stateParams', '$ionicLoading', '$rootScope', '$location', 'localStorageService', '$log',
-        function(LocationService, StoresService, $scope, $stateParams, $ionicLoading, $rootScope, $location, localStorageService, $log) {
+    .controller('StoresIndexCtrl', ['LocationService', 'StoresService', '$scope', '$stateParams', '$ionicLoading', '$rootScope', '$location', 'localStorageService', '$log', '$ionicModal',
+        function(LocationService, StoresService, $scope, $stateParams, $ionicLoading, $rootScope, $location, localStorageService, $log, $ionicModal) {
 
         /**
          *  Toggles the side panel on the stores page
@@ -217,9 +217,44 @@ angular.module('lcboApp.controllers')
         }
 
         /**
+         *  Open modal window
+         *
+         *  @method openModal
+         */
+        $scope.openModal = function() {
+            $scope.modal.show();
+        };
+
+        /**
+         *  Close modal window
+         *
+         *  @method closeModal
+         */
+        $scope.closeModal = function() {
+            if ($scope.tip.selected) {
+                $rootScope.showToolTips = false;
+                localStorageService.add('showToolTips', false);
+            }
+
+            $rootScope.toolTips.search = false;
+            $scope.modal.hide();
+        };
+
+        /**
          *  Controller init logic
          */
         $scope.init = function() {
+            // Load the modal from the given template URL
+            if ($rootScope.showToolTips && $rootScope.toolTips.search) {
+                $ionicModal.fromTemplateUrl('templates/tooltips/search.tooltip.tpl.html', function(modal) {
+                    $scope.modal = modal;
+                    $scope.openModal();
+                }, {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                });
+            }
+
             /**
              *  Establish map defaults
              *
@@ -232,6 +267,9 @@ angular.module('lcboApp.controllers')
                 error: {
                     reveal: false,
                     message: ''
+                },
+                tip: {
+                    selected: false
                 },
                 filters: {},
                 favorites: localStorageService.get('favoriteStores')

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ionicframework.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>StarterApp</name>
+    <name>Liqbo</name>
     <description>
-        A sample Ionic Framework app using Cordova and AngularJS
+        Liqbo is an LCBO search utility app with the ability to find information about stores and products.
     </description>
-    <author email="max@drifty.com" href="http://ionicframework.com">
-        Apache Cordova Team
+    <author email="neilff@gmail.com" href="http://www.codebeard.io">
+        Codebeard.io (Neil Fenton)
     </author>
     <content src="index.html" />
     <access origin="*" />

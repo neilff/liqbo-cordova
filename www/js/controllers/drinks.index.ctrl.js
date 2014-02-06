@@ -1,9 +1,6 @@
-/**
- *  Drinks Controllers
- */
 angular.module('lcboApp.controllers')
-    .controller('DrinksIndexCtrl', ['$scope', '$rootScope', 'DrinksService', 'localStorageService', '$ionicLoading', '$timeout', 'LocationService', '$location', '$anchorScroll',
-        function($scope, $rootScope, DrinksService, localStorageService, $ionicLoading, $timeout, LocationService, $location, $anchorScroll) {
+    .controller('DrinksIndexCtrl', ['$scope', '$rootScope', 'DrinksService', 'localStorageService', '$ionicLoading', '$timeout', 'LocationService', '$location', '$anchorScroll', '$ionicModal',
+        function($scope, $rootScope, DrinksService, localStorageService, $ionicLoading, $timeout, LocationService, $location, $anchorScroll, $ionicModal) {
 
         /**
          *  Reveals the filter panel
@@ -81,9 +78,44 @@ angular.module('lcboApp.controllers')
         }
 
         /**
+         *  Open modal window
+         *
+         *  @method openModal
+         */
+        $scope.openModal = function() {
+            $scope.modal.show();
+        };
+
+        /**
+         *  Close modal window
+         *
+         *  @method closeModal
+         */
+        $scope.closeModal = function() {
+            if ($scope.tip.selected) {
+                $rootScope.showToolTips = false;
+                localStorageService.add('showToolTips', false);
+            }
+
+            $rootScope.toolTips.product = false;
+            $scope.modal.hide();
+        };
+
+        /**
          *  Controller initialize logic
          */
         $scope.init = function() {
+            // Load the modal from the given template URL
+            if ($rootScope.showToolTips && $rootScope.toolTips.product) {
+                $ionicModal.fromTemplateUrl('templates/tooltips/product.tooltip.tpl.html', function(modal) {
+                    $scope.modal = modal;
+                    $scope.openModal();
+                }, {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                });
+            }
+
             /**
              *  We force the application to create the localStorage entries in the application
              *  run configuration, if they are empty, they will default to an empty string
@@ -96,7 +128,10 @@ angular.module('lcboApp.controllers')
                 stores: [],
                 query: {
                     input: ''
-                }
+                },
+                tip: {
+                    selected: false
+                },
             });
 
             $scope.filters = {

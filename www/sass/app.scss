@@ -34,3 +34,14 @@
         border: none;
     }
 }
+
+p.center {
+    text-align: center;
+    img {
+        border: 1px solid #ccc;
+        padding: 8px;
+        margin: 15px 0 0 0;
+        width: 100%;
+        max-width: 250px;
+    }
+}

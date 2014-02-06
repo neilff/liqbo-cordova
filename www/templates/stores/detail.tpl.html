@@ -3,7 +3,7 @@
         <a class="button button-clear icon ion-arrow-left-b" href="#/tab/stores"></a>
         <h1 class="title">{{store.name}}</h1>
     </div>
-    <content has-header="true" has-footer="true" scroll="true" padding="false">
+    <content has-header="true" has-tabs="true" scroll="true" padding="false">
         <list>
 
             <!-- product info -->
@@ -31,45 +31,17 @@
                 <i class="icon" ng-class="{'ion-ios7-plus-outline': !isFavorite, 'ion-ios7-close': isFavorite}"></i>
             </a>
 
-            <!-- search inventory -->
-            <li class="item item-icon-left item-icon-right" ng-click="searchOpenToggle();">
-                <i class="icon ion-ios7-search-strong"></i>
-                Search Inventory
-                <i class="icon" ng-class="{'ion-ios7-plus-outline': !searchOpen, 'ion-ios7-close': searchOpen}"></i>
-            </li>
+            <lcbo-store-features></lcbo-store-features>
 
-            <!-- search inventory form -->
-            <form class="item item-input-inset" ng-submit="productSearch();" ng-show="searchOpen">
-                <label class="item-input-wrapper">
-                    <input type="text" placeholder="Search" ng-model="query.text">
-                    <i class="icon ion-ios7-close-outline placeholder-icon" ng-click="clearSearch();"></i>
-                </label>
-                <input type="submit" class="button button-small button-positive button-clear">
-            </form>
+            <lcbo-store-hours></lcbo-store-hours>
 
-            <!-- search inventory error -->
-            <li class="item item-assertive item-icon-left item-icon-right" ng-show="noProducts && searchOpen" ng-click="clearError();">
-                <i class="icon ion-alert-circled"></i>
-                No Items Found
-                <i class="icon ion-ios7-close-outline"></i>
-            </li>
+            <lcbo-store-search-inventory></lcbo-store-search-inventory>
 
             <!-- search inventory results -->
             <li class="item item-icon-left" ng-repeat="product in productResults" ng-show="searchOpen">
                 <i class="icon ion-beer"></i>{{product.name}}<span class="badge badge-assertive">{{product.quantity}}</span>
                 <p>{{product.package}}</p>
             </li>
-
-            <li class="item item-divider"></i>Hours</li>
-            <lcbo-hours-operation day="Monday" open="{{store.monday_open}}" close="{{store.monday_close}}"></lcbo-hours-operation>
-            <lcbo-hours-operation day="Tuesday" open="{{store.tuesday_open}}" close="{{store.tuesday_close}}"></lcbo-hours-operation>
-            <lcbo-hours-operation day="Wednesday" open="{{store.wednesday_open}}" close="{{store.wednesday_close}}"></lcbo-hours-operation>
-            <lcbo-hours-operation day="Thursday" open="{{store.thursday_open}}" close="{{store.thursday_close}}"></lcbo-hours-operation>
-            <lcbo-hours-operation day="Friday" open="{{store.friday_open}}" close="{{store.friday_close}}"></lcbo-hours-operation>
-            <lcbo-hours-operation day="Saturday" open="{{store.saturday_open}}" close="{{store.saturday_close}}"></lcbo-hours-operation>
-            <lcbo-hours-operation day="Sunday" open="{{store.sunday_open}}" close="{{store.sunday_close}}"></lcbo-hours-operation>
-
-            <lcbo-store-features></lcbo-store-features>
         </list>
     </content>
 </view>
