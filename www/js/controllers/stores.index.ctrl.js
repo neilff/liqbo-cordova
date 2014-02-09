@@ -1,6 +1,6 @@
 angular.module('lcboApp.controllers')
-    .controller('StoresIndexCtrl', ['LocationService', 'StoresService', '$scope', '$stateParams', '$ionicLoading', '$rootScope', '$location', 'localStorageService', '$log', '$ionicModal',
-        function(LocationService, StoresService, $scope, $stateParams, $ionicLoading, $rootScope, $location, localStorageService, $log, $ionicModal) {
+    .controller('StoresIndexCtrl', ['LocationService', 'StoresService', '$scope', '$stateParams', '$ionicLoading', '$rootScope', '$state', 'localStorageService', '$log', '$ionicModal',
+        function(LocationService, StoresService, $scope, $stateParams, $ionicLoading, $rootScope, $state, localStorageService, $log, $ionicModal) {
 
         /**
          *  Toggles the side panel on the stores page
@@ -47,7 +47,7 @@ angular.module('lcboApp.controllers')
          */
         $scope.viewStoreDetails = function(id) {
             console.log(id);
-            $location.path('/tab/stores/' + id);
+            $state.go()('/tab/stores/' + id);
         }
 
 
@@ -244,16 +244,6 @@ angular.module('lcboApp.controllers')
          *  Controller init logic
          */
         $scope.init = function() {
-            // Load the modal from the given template URL
-            if ($rootScope.showToolTips && $rootScope.toolTips.search) {
-                $ionicModal.fromTemplateUrl('templates/tooltips/search.tooltip.tpl.html', function(modal) {
-                    $scope.modal = modal;
-                    $scope.openModal();
-                }, {
-                    scope: $scope,
-                    animation: 'slide-in-up'
-                });
-            }
 
             /**
              *  Establish map defaults

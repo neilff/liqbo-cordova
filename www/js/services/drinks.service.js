@@ -21,6 +21,7 @@ angular.module('lcboApp.services')
                 url: 'http://lcboapi.com/products.js',
                 params: {
                     callback: 'JSON_CALLBACK',
+                    per_page: 10,
                     q: escapeFilter(query),
                     where: filters.join(',')
                 }

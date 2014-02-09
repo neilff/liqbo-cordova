@@ -105,16 +105,6 @@ angular.module('lcboApp.controllers')
          *  Controller initialize logic
          */
         $scope.init = function() {
-            // Load the modal from the given template URL
-            if ($rootScope.showToolTips && $rootScope.toolTips.product) {
-                $ionicModal.fromTemplateUrl('templates/tooltips/product.tooltip.tpl.html', function(modal) {
-                    $scope.modal = modal;
-                    $scope.openModal();
-                }, {
-                    scope: $scope,
-                    animation: 'slide-in-up'
-                });
-            }
 
             /**
              *  We force the application to create the localStorage entries in the application

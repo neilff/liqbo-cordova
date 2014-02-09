@@ -115,7 +115,6 @@ angular.module('lcboApp.controllers')
             $ionicLoading.show($rootScope.loadingConfig);
             StoresService.getStoreById($stateParams.storeId).then(function(response) {
                 $scope.store = response.data.result;
-                console.log($scope.store);
                 $ionicLoading.show().hide();
             });
         }

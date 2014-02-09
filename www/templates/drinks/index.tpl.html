@@ -25,7 +25,7 @@
                         <p>{{item.price_in_cents | centsToDollars}}</p>
                         <i class="icon ion-ios7-arrow-right placeholder-icon"></i>
                     </a>
-                    <a class="item" href="" ng-click="loadMore();" ng-show="pager.total_record_count > 20 && results.length < pager.total_record_count && results.length < 60">Load Next 20 Results</a>
+                    <a class="item" href="" ng-click="loadMore();" ng-show="pager.total_record_count > 10 && results.length < pager.total_record_count && results.length < 60">Load Next 10 Results</a>
                 </list>
             </content>
         </pane>
