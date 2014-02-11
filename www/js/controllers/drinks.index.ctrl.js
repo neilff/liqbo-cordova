@@ -35,13 +35,18 @@ angular.module('lcboApp.controllers')
 
                 $ionicLoading.show($rootScope.loadingConfig);
 
-                DrinksService.getProducts($scope.query.input, filters).success(function(response) {
-                    $scope.pager = response.pager;
-                    $scope.results = response.result;
-                    localStorageService.add('lastSearch', $scope.query.input);
-                    localStorageService.add('lastResult', response.result);
-                    $ionicLoading.show().hide();
-                });
+                DrinksService.getProducts($scope.query.input, filters)
+                    .success(function(response) {
+                        $scope.pager = response.pager;
+                        $scope.results = response.result;
+                        localStorageService.add('lastSearch', $scope.query.input);
+                        localStorageService.add('lastResult', response.result);
+                        $ionicLoading.show().hide();
+                    })
+                    .error(function(response) {
+                        $rootScope.online = false;
+                        $ionicLoading.show().hide();
+                    });
             }
         }
 
@@ -56,11 +61,16 @@ angular.module('lcboApp.controllers')
             if ($scope.results.length <= 100 && $scope.pager.total_record_count > 20) {
                 $ionicLoading.show($rootScope.loadingConfig);
 
-                DrinksService.loadMoreProducts($scope.pager.next_page_path).then(function(response) {
-                    $scope.pager = response.data.pager;
-                    $scope.results = $scope.results.concat(response.data.result);
-                    $ionicLoading.show().hide();
-                });
+                DrinksService.loadMoreProducts($scope.pager.next_page_path)
+                    .success(function(response) {
+                        $scope.pager = response.data.pager;
+                        $scope.results = $scope.results.concat(response.data.result);
+                        $ionicLoading.show().hide();
+                    })
+                    .error(function(response) {
+                        $rootScope.online = false;
+                        $ionicLoading.show().hide();
+                    });
             }
         }
 
@@ -112,7 +122,7 @@ angular.module('lcboApp.controllers')
              *  and an empty array.
              */
             _.extend($scope, {
-                results: localStorageService.get('lastResult'),
+                results: ($rootScope.online) ? localStorageService.get('lastResult') : [],
                 favorites: localStorageService.get('favoriteDrinks'),
                 pager: {},
                 stores: [],

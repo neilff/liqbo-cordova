@@ -70,18 +70,23 @@ angular.module('lcboApp.controllers')
         $scope.findStores = function() {
             $ionicLoading.show($rootScope.loadingConfig);
 
-            StoresService.getStoresByLocation().then(function(data) {
-                if (data.data.result.length <= 0) {
-                    revealError('No search results found');
-                } else {
-                    $rootScope.map.center = {
-                        latitude: $rootScope.user.latitude,
-                        longitude: $rootScope.user.longitude
-                    }
+            StoresService.getStoresByLocation()
+                .success(function(data) {
+                    if (data.result.length <= 0) {
+                        revealError('No search results found');
+                    } else {
+                        $rootScope.map.center = {
+                            latitude: $rootScope.user.latitude,
+                            longitude: $rootScope.user.longitude
+                        }
 
-                    $scope.drawMarkersOnMap(data.data.result);
-                }
-            });
+                        $scope.drawMarkersOnMap(data.result);
+                    }
+                })
+                .error(function(response) {
+                    $rootScope.online = false;
+                    $ionicLoading.show().hide();
+                });
         }
 
         /**
@@ -96,20 +101,25 @@ angular.module('lcboApp.controllers')
             var queryStores = function() {
                 var filters = _.findKeys($scope.filters, true);
 
-                StoresService.queryStores($scope.query.text, filters).then(function(data) {
-                    console.log(data);
+                StoresService.queryStores($scope.query.text, filters)
+                    .success(function(data) {
+                        console.log(data);
 
-                    if (data.data.result.length <= 0) {
-                        revealError('No search results found');
-                    } else {
-                        $rootScope.map.center = {
-                            latitude: data.data.result[0].latitude,
-                            longitude: data.data.result[0].longitude
+                        if (data.result.length <= 0) {
+                            revealError('No search results found');
+                        } else {
+                            $rootScope.map.center = {
+                                latitude: data.result[0].latitude,
+                                longitude: data.result[0].longitude
+                            }
+
+                            $scope.drawMarkersOnMap(data.result);
                         }
-
-                        $scope.drawMarkersOnMap(data.data.result);
-                    }
-                });
+                    })
+                    .error(function(response) {
+                        $rootScope.online = false;
+                        $ionicLoading.show().hide();
+                    });
             }
 
             $scope.findUsersLocation(queryStores);
@@ -130,20 +140,25 @@ angular.module('lcboApp.controllers')
             /* If the side menu isn't open it causes an error, so check it exists before closing it */
             if ($scope.sideMenuController) $scope.sideMenuController.close();
 
-            StoresService.getStoreById(id).then(function(data) {
-                console.log(data);
+            StoresService.getStoreById(id)
+                .success(function(data) {
+                    console.log(data);
 
-                if (data.data.error) {
-                    revealError(data.data.message);
-                } else {
-                    $rootScope.map.center = {
-                        latitude: data.data.result.latitude,
-                        longitude: data.data.result.longitude
+                    if (data.error) {
+                        revealError(data.message);
+                    } else {
+                        $rootScope.map.center = {
+                            latitude: data.result.latitude,
+                            longitude: data.result.longitude
+                        }
+
+                        $scope.drawMarkersOnMap(data.result);
                     }
-
-                    $scope.drawMarkersOnMap(data.data.result);
-                }
-            });
+                })
+                .error(function(response) {
+                    $rootScope.online = false;
+                    $ionicLoading.show().hide();
+                });
         }
 
         /**
@@ -270,21 +285,23 @@ angular.module('lcboApp.controllers')
             /**
              *  Determine the way the user is entering the page
              */
-            if ($stateParams.storeid) {
-                /* load the specific store the user has requested */
-                $ionicLoading.show($rootScope.loadingConfig);
-                $scope.findStoreById($stateParams.storeid);
-            } else if (localStorageService.get('lastStores')) {
-                /* load the users last viewed locations */
-                var locations = localStorageService.get('lastStores');
-                console.log(locations.length);
-                $rootScope.map.center = localStorageService.get('lastMapLocation');
-                $scope.drawMarkersOnMap(localStorageService.get('lastStores'));
-                return;
-            } else {
-                /* otherwise default to showing them their location and surrounding stores */
-                $ionicLoading.show($rootScope.loadingConfig);
-                return $scope.findUsersLocation($scope.findStores);
+            if ($rootScope.online) {
+                if ($stateParams.storeid) {
+                    /* load the specific store the user has requested */
+                    $ionicLoading.show($rootScope.loadingConfig);
+                    $scope.findStoreById($stateParams.storeid);
+                } else if (localStorageService.get('lastStores')) {
+                    /* load the users last viewed locations */
+                    var locations = localStorageService.get('lastStores');
+                    console.log(locations.length);
+                    $rootScope.map.center = localStorageService.get('lastMapLocation');
+                    $scope.drawMarkersOnMap(localStorageService.get('lastStores'));
+                    return;
+                } else {
+                    /* otherwise default to showing them their location and surrounding stores */
+                    $ionicLoading.show($rootScope.loadingConfig);
+                    return $scope.findUsersLocation($scope.findStores);
+                }
             }
         }
 

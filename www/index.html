@@ -7,6 +7,7 @@
 
         <!-- ionic css -->
         <link href="lib/css/ionic.css" rel="stylesheet">
+        <link href="lib/js/offline/themes/offline-theme-chrome.css" rel="stylesheet">
 
         <!-- your app's css -->
         <link href="css/app.css" rel="stylesheet">
@@ -52,6 +53,7 @@
         <script src="js/directives/lcbo-store-search-inventory.js"></script>
 
         <!-- controllers -->
+        <script src="js/controllers/intro.ctrl.js"></script>
         <script src="js/controllers/stores.index.ctrl.js"></script>
         <script src="js/controllers/stores.detail.ctrl.js"></script>
         <script src="js/controllers/drinks.index.ctrl.js"></script>
@@ -62,6 +64,9 @@
     </head>
 
     <body ng-app="lcboApp" animation="slide-left-right-ios7">
+        <div ng-if="!$root.online" class="bar bar-header bar-assertive">
+            <h2 class="title">No internet connection detected</h2>
+        </div>
         <nav-view></nav-view>
     </body>
 </html>

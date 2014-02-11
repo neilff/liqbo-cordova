@@ -14,7 +14,7 @@
             <content has-header="true" scroll=false>
 
                 <!-- google map directive -->
-                <google-map center="$root.map.center" zoom="$root.map.zoom" options="$root.map.options" draggable="true" fit="true">
+                <google-map ng-if="$root.online" center="$root.map.center" zoom="$root.map.zoom" options="$root.map.options" draggable="true" fit="true">
                     <marker coords="$root.user" icon="map.icons.user"></marker>
                     <markers models="$root.localStores" coords="'self'" fit="'true'" icon="'icon'" click="'onClicked'"></markers>
                 </google-map>

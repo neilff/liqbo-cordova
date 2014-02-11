@@ -11,10 +11,15 @@ angular.module('lcboApp.controllers')
          */
         var getProductInfo = function(id) {
             $ionicLoading.show($rootScope.loadingConfig);
-            DrinksService.getProduct(id).success(function(data) {
-                $scope.product = data.result;
-                $ionicLoading.show().hide();
-            });
+            DrinksService.getProduct(id)
+                .success(function(data) {
+                    $scope.product = data.result;
+                    $ionicLoading.show().hide();
+                })
+                .error(function(response) {
+                    $rootScope.online = false;
+                    $ionicLoading.show().hide();
+                });
         }
 
         $scope.clearError = function() {
@@ -46,11 +51,16 @@ angular.module('lcboApp.controllers')
             var locationSuccess = function(response) {
                 console.log(response.coords);
                 $ionicLoading.show($rootScope.loadingConfig);
-                DrinksService.findLocally(item.id, response.coords).success(function(data) {
-                    console.log(data);
-                    $scope.stores = data.result;
-                    $ionicLoading.show().hide();
-                });
+                DrinksService.findLocally(item.id, response.coords)
+                    .success(function(data) {
+                        console.log(data);
+                        $scope.stores = data.result;
+                        $ionicLoading.show().hide();
+                    })
+                    .error(function(response) {
+                        $rootScope.online = false;
+                        $ionicLoading.show().hide();
+                    });
             }
 
             var locationError = function(response) {
@@ -85,7 +95,7 @@ angular.module('lcboApp.controllers')
             if (localStorageService.get('lastProduct').id === parseInt($stateParams.productId)) {
                 $scope.product = localStorageService.get('lastProduct');
             } else {
-                getProductInfo($stateParams.productId)
+                getProductInfo($stateParams.productId);
             }
         }
 

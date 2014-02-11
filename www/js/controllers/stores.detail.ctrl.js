@@ -61,25 +61,30 @@ angular.module('lcboApp.controllers')
 
             if ($scope.query.text.length > 0) {
                 $scope.noProducts = false;
-                StoresService.queryStoreProducts($stateParams.storeId, $scope.query.text).then(function(response) {
-                    console.log(response);
-                    $scope.productResults = response.data.result;
+                StoresService.queryStoreProducts($stateParams.storeId, $scope.query.text)
+                    .success(function(response) {
+                        console.log(response);
+                        $scope.productResults = response.result;
 
-                    if ($scope.productResults.length <= 0) {
-                        /* If there are no products, throw an error */
-                        $scope.noProducts = true;
-                        $ionicLoading.show().hide();
-                    } else {
-                        /* Roll through each result and get the inventory count */
-                        _.each($scope.productResults, function(product) {
-                            StoresService.getProductInventoryAtStore($stateParams.storeId, product.id).then(function(response) {
-                                product.quantity = response.data.result.quantity;
+                        if ($scope.productResults.length <= 0) {
+                            /* If there are no products, throw an error */
+                            $scope.noProducts = true;
+                            $ionicLoading.show().hide();
+                        } else {
+                            /* Roll through each result and get the inventory count */
+                            _.each($scope.productResults, function(product) {
+                                StoresService.getProductInventoryAtStore($stateParams.storeId, product.id).success(function(response) {
+                                    product.quantity = response.result.quantity;
+                                });
                             });
-                        });
 
+                            $ionicLoading.show().hide();
+                        }
+                    })
+                    .error(function(response) {
+                        $rootScope.online = false;
                         $ionicLoading.show().hide();
-                    }
-                });
+                    });
             }
         }
 
@@ -113,10 +118,15 @@ angular.module('lcboApp.controllers')
             });
 
             $ionicLoading.show($rootScope.loadingConfig);
-            StoresService.getStoreById($stateParams.storeId).then(function(response) {
-                $scope.store = response.data.result;
-                $ionicLoading.show().hide();
-            });
+            StoresService.getStoreById($stateParams.storeId)
+                .success(function(response) {
+                    $scope.store = response.result;
+                    $ionicLoading.show().hide();
+                })
+                .error(function(response) {
+                    $rootScope.online = false;
+                    $ionicLoading.show().hide();
+                });
         }
 
         $scope.init();

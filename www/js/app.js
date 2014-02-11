@@ -82,7 +82,7 @@ angular.module('lcboApp', [
  *  to create them. Load favorites into rootScope where we can carry them throughout
  *  the entire application on a global level
  */
-.run(['localStorageService', '$rootScope', function(localStorageService, $rootScope) {
+.run(['localStorageService', '$rootScope', '$window', 'StoresService', '$interval', function(localStorageService, $rootScope, $window, StoresService, $interval) {
 
     if (!localStorageService.get('showToolTips')) { localStorageService.add('showToolTips', true) };
 
@@ -125,7 +125,8 @@ angular.module('lcboApp', [
         toolTips: {
             search: true,
             product: true
-        }
+        },
+        hasInternet: false
     });
 
     /**
@@ -148,6 +149,51 @@ angular.module('lcboApp', [
         localStorageService.add('lastMapLocation', defaultLocation);
         $rootScope.map.center = defaultLocation;
     }
+
+    $rootScope.online = navigator.onLine;
+
+    $window.addEventListener('offline', function () {
+        $rootScope.$apply(function() {
+            $rootScope.online = false;
+        });
+    }, false);
+
+    $window.addEventListener('online', function () {
+        $rootScope.$apply(function() {
+            $rootScope.online = true;
+        });
+    }, false);
+
+    /**
+     *  Double check the browser is able to make a connection as mobile
+     *  doesn't seem to properly use navigator.onLine
+     */
+    StoresService.checkConnection()
+        .success(function(response) {
+            $rootScope.online = true;
+        })
+        .error(function(response) {
+            $rootScope.online = false;
+        });
+
+    $rootScope.$watch('online', function(val) {
+        var objTimer = null;
+        console.log(val);
+        if (!val) {
+            objTimer = $interval(function() {
+                console.log('checking for connection');
+                StoresService.checkConnection().success(function(response) {
+                    $rootScope.online = true;
+                    $interval.cancel(objTimer);
+                }).error(function() {
+                    objTimer;
+                });
+            }, 5000);
+        } else {
+            console.log('connected to internet');
+            $interval.cancel(objTimer);
+        }
+    });
 }]);
 
 /**

@@ -29,6 +29,16 @@ angular.module('lcboApp.services')
             });
         }
 
+        var checkConnection = function() {
+            return $http({
+                method: 'JSONP',
+                url: 'http://lcboapi.com/products.js',
+                params: {
+                    callback: 'JSON_CALLBACK'
+                }
+            });
+        }
+
         /**
          *  Finds a stores details by passing the id of the store
          *
@@ -122,6 +132,7 @@ angular.module('lcboApp.services')
             getStoreById: getStoreById,
             queryStores: queryStores,
             queryStoreProducts: queryStoreProducts,
-            getProductInventoryAtStore: getProductInventoryAtStore
+            getProductInventoryAtStore: getProductInventoryAtStore,
+            checkConnection: checkConnection
         }
     }]);

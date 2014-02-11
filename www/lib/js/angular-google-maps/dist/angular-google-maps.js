@@ -1391,7 +1391,7 @@ Nicholas McCready - https://twitter.com/nmccready
 }).call(this);
 
 /*
-	Basic Directive api for a marker. Basic in the sense that this directive contains 1:1 on scope and model. 
+	Basic Directive api for a marker. Basic in the sense that this directive contains 1:1 on scope and model.
 	Thus there will be one html element per marker within the directive.
 */
 
@@ -1787,7 +1787,7 @@ Nicholas McCready - https://twitter.com/nmccready
         being that we cannot tell the difference in Key String vs. a normal value string (TemplateUrl)
         we will assume that all scope values are string expressions either pointing to a key (propName) or using
         'self' to point the model as container/object of interest.
-        
+
         This may force redundant information into the model, but this appears to be the most flexible approach.
         */
 
@@ -2060,7 +2060,7 @@ Nicholas McCready - https://twitter.com/nmccready
 }).call(this);
 
 /*
-	Basic Directive api for a label. Basic in the sense that this directive contains 1:1 on scope and model. 
+	Basic Directive api for a label. Basic in the sense that this directive contains 1:1 on scope and model.
 	Thus there will be one html element per marker within the directive.
 */
 
@@ -2149,7 +2149,7 @@ Nicholas McCready - https://twitter.com/nmccready
 }).call(this);
 
 /*
-	Basic Directive api for a marker. Basic in the sense that this directive contains 1:1 on scope and model. 
+	Basic Directive api for a marker. Basic in the sense that this directive contains 1:1 on scope and model.
 	Thus there will be one html element per marker within the directive.
 */
 
@@ -2196,7 +2196,7 @@ Nicholas McCready - https://twitter.com/nmccready
 /*
 Markers will map icon and coords differently than directibes.api.Marker. This is because Scope and the model marker are
 not 1:1 in this setting.
-	
+
 	- icon - will be the iconKey to the marker value ie: to get the icon marker[iconKey]
 	- coords - will be the coordsKey to the marker value ie: to get the icon marker[coordsKey]
 
