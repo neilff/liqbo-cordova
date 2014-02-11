@@ -57,9 +57,9 @@ angular.module('lcboApp.controllers')
          *  @return {Object} Results of the query
          */
         $scope.productSearch = function() {
-            $ionicLoading.show($rootScope.loadingConfig);
-
             if ($scope.query.text.length > 0) {
+                document.activeElement.blur();
+                $ionicLoading.show($rootScope.loadingConfig);
                 $scope.noProducts = false;
                 StoresService.queryStoreProducts($stateParams.storeId, $scope.query.text)
                     .success(function(response) {

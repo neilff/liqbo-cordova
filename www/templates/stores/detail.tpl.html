@@ -24,6 +24,16 @@
                 <i class="icon ion-ios7-telephone-outline"></i>
             </a>
 
+            <lcbo-store-search-inventory></lcbo-store-search-inventory>
+
+            <!-- search inventory results -->
+            <ul ng-if="productResults.length > 0">
+                <li class="item item-icon-left" ng-repeat="product in productResults" ng-show="searchOpen">
+                    <i class="icon ion-beer"></i>{{product.name}}<span class="badge badge-assertive">{{product.quantity}}</span>
+                    <p>{{product.package}}</p>
+                </li>
+            </ul>
+
             <!-- add as favorite button -->
             <a class="item item-icon-left item-icon-right" href="" ng-click="toggleFavorite(store);" ng-class="{'item-positive': isFavorite}">
                 <i class="icon ion-thumbsup" ng-class="{dark: !isFavorite}"></i>
@@ -34,14 +44,6 @@
             <lcbo-store-features></lcbo-store-features>
 
             <lcbo-store-hours></lcbo-store-hours>
-
-            <lcbo-store-search-inventory></lcbo-store-search-inventory>
-
-            <!-- search inventory results -->
-            <li class="item item-icon-left" ng-repeat="product in productResults" ng-show="searchOpen">
-                <i class="icon ion-beer"></i>{{product.name}}<span class="badge badge-assertive">{{product.quantity}}</span>
-                <p>{{product.package}}</p>
-            </li>
         </list>
     </content>
 </view>
