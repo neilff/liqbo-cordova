@@ -290,7 +290,7 @@ angular.module('lcboApp.controllers')
                     /* load the specific store the user has requested */
                     $ionicLoading.show($rootScope.loadingConfig);
                     $scope.findStoreById($stateParams.storeid);
-                } else if (localStorageService.get('lastStores')) {
+                } else if (localStorageService.get('lastStores').length > 0) {
                     /* load the users last viewed locations */
                     var locations = localStorageService.get('lastStores');
                     console.log(locations.length);

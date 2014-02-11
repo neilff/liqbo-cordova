@@ -67,7 +67,7 @@ angular.module('lcboApp', [
             }
         })
 
-    $urlRouterProvider.otherwise('/tab/stores');
+    $urlRouterProvider.otherwise('/tab/drinks');
 }])
 
 /**
@@ -83,8 +83,6 @@ angular.module('lcboApp', [
  *  the entire application on a global level
  */
 .run(['localStorageService', '$rootScope', '$window', 'StoresService', '$interval', function(localStorageService, $rootScope, $window, StoresService, $interval) {
-
-    if (!localStorageService.get('showToolTips')) { localStorageService.add('showToolTips', true) };
 
     /**
      *  Establish rootScope defaults
@@ -194,6 +192,8 @@ angular.module('lcboApp', [
             $interval.cancel(objTimer);
         }
     });
+
+    console.log($rootScope.map);
 }]);
 
 /**
